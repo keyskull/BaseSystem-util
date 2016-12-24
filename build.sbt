@@ -9,4 +9,7 @@ lazy val util = (project in file(".")).settings(commonSettings: _*).
       "org.slf4j" % "slf4j-nop" % "1.7.20" ::
       "com.typesafe.akka" %% "akka-testkit" % "2.4.8" ::
       "com.typesafe.akka" %% "akka-slf4j" % "2.4.8" ::
+      //    "org.scalacheck" %% "scalacheck" % "1.13.2" % "test"::
+      "org.scalatest" %% "scalatest" % "3.0.0" % "test" ::
+
       Nil)
