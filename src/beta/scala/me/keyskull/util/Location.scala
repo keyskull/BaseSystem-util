@@ -3,7 +3,7 @@ package me.keyskull.util
 import java.net.{HttpURLConnection, URL}
 import javax.net.ssl.HttpsURLConnection
 
-import org.json.{JSONObject, JSONTokener}
+import play.libs.Json
 
 import scala.util.{Failure, Success, Try}
 
@@ -22,16 +22,16 @@ trait Location {
   out.write("".toCharArray map (s => s.toByte))
   out.flush()
   out.close()
-  private val jsonObject = new JSONObject(new JSONTokener(httpsConnection.getInputStream))
+  private val jsonObject = Json.parse(httpsConnection.getInputStream)
   println(jsonObject.toString)
 
   def Init: LocationInformation
 
   def get(): LocationInformation = {
     val info = Try(
-        LocationInformation(jsonObject.getDouble("accuracy"),
-          jsonObject.getJSONObject("location").getDouble("lng"),
-          jsonObject.getJSONObject("location").getDouble("lat"))
+        LocationInformation(jsonObject.get("accuracy").asDouble(),
+          jsonObject.get("location").get("lng").asDouble(),
+          jsonObject.get("location").get("lat").asDouble())
     )
     val data = Try(Init)
     info match {
